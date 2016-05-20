@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">WeatherOnMap</string>
+    <string name="unknown">&lt;unknown&gt;</string>
+    <string name="temperature">Temperature: %1$s°C</string>
+    <string name="humidity">Humidity: %1$s%%</string>
+    <string name="wind_speed">Wind speed: %1$sm/s</string>
+    <string name="error">Sorry, couldn\'t load weather data.</string>
+    <string name="no_location_permission">Sorry, no location permission.</string>
+    <string name="location">Current location</string>
+</resources>

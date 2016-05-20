@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="info"
+            type="ua.droidsft.weatheronmap.model.WeatherInfo"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:clickable="false"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/text_padding">
+
+        <TextView
+            android:id="@+id/tv_name"
+            style="@style/WeatherText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{info.name}"
+            android:textStyle="bold"/>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/weather_image"
+                android:layout_width="@dimen/weather_image_size"
+                android:layout_height="@dimen/weather_image_size"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:scaleType="centerCrop"
+                tools:ignore="ContentDescription"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/weather_image"
+                android:layout_toRightOf="@id/weather_image"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_main"
+                    style="@style/WeatherText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{info.main}"/>
+
+                <TextView
+                    android:id="@+id/tv_desc"
+                    style="@style/WeatherText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{info.description}"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_temperature"
+            style="@style/WeatherText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{info.temperature}"/>
+
+        <TextView
+            android:id="@+id/tv_humidity"
+            style="@style/WeatherText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{info.humidity}"/>
+
+        <TextView
+            android:id="@+id/tv_wind_speed"
+            style="@style/WeatherText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{info.windSpeed}"/>
+
+    </LinearLayout>
+</layout>
