@@ -24,6 +24,8 @@ import ua.droidsft.weatheronmap.R;
 import ua.droidsft.weatheronmap.model.WeatherInfo;
 import ua.droidsft.weatheronmap.presenter.WeatherPresenter;
 
+import static ua.droidsft.weatheronmap.Constants.ZOOM_MAP_DEFAULT;
+
 /**
  * Fragment for Map.
  * Created by Vlad on 18.05.2016.
@@ -120,6 +122,7 @@ public class WeatherMapFragment extends SupportMapFragment implements WeatherVie
 
     @Override
     public void showWeather(WeatherInfo info, LatLng latLng) {
+        showLocation(latLng);
         Marker marker = mMap.addMarker(new MarkerOptions()
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker))
                 .position(latLng));
@@ -129,7 +132,7 @@ public class WeatherMapFragment extends SupportMapFragment implements WeatherVie
 
     @Override
     public void showLocation(LatLng latLng) {
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(latLng);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, ZOOM_MAP_DEFAULT);
         mMap.animateCamera(cameraUpdate);
     }
 
