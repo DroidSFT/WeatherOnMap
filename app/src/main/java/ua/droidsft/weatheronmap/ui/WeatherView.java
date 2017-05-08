@@ -20,4 +20,6 @@ public interface WeatherView {
 
     void clearMap();
 
+    void setInProgress(boolean inProgress);
+
 }

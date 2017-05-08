@@ -4,9 +4,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -39,6 +43,8 @@ public class WeatherMapFragment extends SupportMapFragment implements WeatherVie
 
     private GoogleApiClient mClient;
     private GoogleMap mMap;
+
+    private PopupWindow mProgressWindow;
 
     public static WeatherMapFragment newInstance() {
         return new WeatherMapFragment();
@@ -132,7 +138,9 @@ public class WeatherMapFragment extends SupportMapFragment implements WeatherVie
 
     @Override
     public void showLocation(LatLng latLng) {
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, ZOOM_MAP_DEFAULT);
+        float currentZoom = mMap.getCameraPosition().zoom;
+        float newZoom = currentZoom >= ZOOM_MAP_DEFAULT ? currentZoom : ZOOM_MAP_DEFAULT;
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, newZoom);
         mMap.animateCamera(cameraUpdate);
     }
 
@@ -155,6 +163,29 @@ public class WeatherMapFragment extends SupportMapFragment implements WeatherVie
     @Override
     public void clearMap() {
         mMap.clear();
+    }
+
+    @Override
+    public void setInProgress(boolean inProgress) {
+        if (mProgressWindow == null) {
+            initProgressWindow();
+        }
+
+        if (inProgress) {
+            if (getView() != null) {
+                mProgressWindow.showAtLocation(getView(), Gravity.CENTER, 0, 0);
+            }
+        } else {
+            mProgressWindow.dismiss();
+        }
+    }
+
+    private void initProgressWindow() {
+        mProgressWindow = new PopupWindow(new ProgressBar(getContext()), ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        mProgressWindow.setFocusable(false);
+        mProgressWindow.setIgnoreCheekPress();
+        mProgressWindow.setOutsideTouchable(false);
+        mProgressWindow.setTouchable(false);
     }
 
     public void requestPermissionsResult(int requestCode, @NonNull int[] grantResults) {

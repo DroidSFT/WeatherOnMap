@@ -33,16 +33,22 @@ public class WeatherPresenter extends BaseJobPresenter {
 
     private WeatherView mWeatherView;
 
+    private boolean mInProgress = false;
+
     public WeatherPresenter(WeatherView weatherView) {
         mWeatherView = weatherView;
     }
 
     public void loadWeather(LatLng latLng) {
+        if (mInProgress) return;
+        setInProgress(true);
         mWeatherView.clearMap();
+        mWeatherView.showLocation(latLng);
         mJobManager.addJobInBackground(new GetWeatherJob(latLng));
     }
 
     public void findLocation(GoogleApiClient client, Activity activity) {
+        if (mInProgress) return;
         LocationRequest request = LocationRequest.create();
         request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         request.setNumUpdates(1);
@@ -85,6 +91,7 @@ public class WeatherPresenter extends BaseJobPresenter {
                 .subscribe(new Action1<Object>() {
                     @Override
                     public void call(Object o) {
+                        setInProgress(false);
                         if (o instanceof SuccessEvent) {
                             mWeatherView.showWeather(((SuccessEvent) o).getWeatherInfo(), ((SuccessEvent) o).getLatLng());
                         } else if (o instanceof FailEvent) {
@@ -96,6 +103,11 @@ public class WeatherPresenter extends BaseJobPresenter {
 
     public void rxBusUnSubscribe() {
         mSubscription.clear();
+    }
+
+    private void setInProgress(boolean inProgress) {
+        mInProgress = inProgress;
+        mWeatherView.setInProgress(mInProgress);
     }
 
 }
